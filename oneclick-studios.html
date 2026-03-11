@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oneclick Studios — Photography</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf8ee;
+    --bg-2: #f5edd8;
+    --warm: #1c1507;
+    --muted: rgba(28,21,7,0.5);
+    --faint: rgba(28,21,7,0.1);
+    --gold: #b08800;
+    --gold-light: #d4a800;
+    --yellow: #f5c800;
+    --yellow-pale: #fef3b0;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--warm);
+    font-family: var(--sans);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cur-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.12s;
+  }
+  .cur-circle {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(176,136,0,0.45);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 32px 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(253,248,238,0.92) 0%, rgba(253,248,238,0) 100%);
+    backdrop-filter: blur(0px);
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--warm);
+    text-decoration: none;
+  }
+  .logo span { color: var(--gold); font-style: italic; }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 44px;
+  }
+  .nav-links a {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--warm); }
+
+  .nav-cta {
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(176,136,0,0.4);
+    padding: 10px 24px;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--yellow-pale);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    opacity: 0;
+    animation: bgFadeIn 1.8s ease forwards 0.2s;
+  }
+
+  @keyframes bgFadeIn { to { opacity: 1; } }
+
+  .hero-tile { position: relative; overflow: hidden; }
+
+  .hero-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--yellow-pale);
+    animation: tileReveal 1.2s cubic-bezier(0.77,0,0.18,1) forwards;
+  }
+  .hero-tile:nth-child(1)::after { animation-delay: 0.3s; }
+  .hero-tile:nth-child(2)::after { animation-delay: 0.1s; grid-row: span 2; }
+  .hero-tile:nth-child(3)::after { animation-delay: 0.5s; }
+  .hero-tile:nth-child(4)::after { animation-delay: 0.7s; }
+  .hero-tile:nth-child(5)::after { animation-delay: 0.9s; }
+
+  @keyframes tileReveal { to { transform: translateY(100%); } }
+
+  /* Warm yellow/cream toned photo simulations */
+  .t1 { background: url("images/img1.jpeg") center/cover no-repeat; }
+    .t2 {
+    background: url("images/img2.jpeg") center top/cover no-repeat;
+    grid-row: span 2;
+  }
+  .t3 { background: url("images/img6.jpeg") center/cover no-repeat; }
+  .t4 { background: url("images/img7.jpeg") center/cover no-repeat; }
+  .t5 { background: url("images/img8.jpeg") center/cover no-repeat; }
+
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(253,248,238,0.96) 0%, rgba(253,248,238,0.55) 35%, rgba(253,248,238,0.1) 60%),
+      linear-gradient(to right, rgba(253,248,238,0.4) 0%, transparent 50%, rgba(253,248,238,0.3) 100%);
+    z-index: 1;
+  }
+
+  .grain {
+    position: fixed;
+    inset: -50%;
+    width: 200%; height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 300;
+    animation: grainMove 0.5s steps(2) infinite;
+    opacity: 0.35;
+  }
+
+  @keyframes grainMove {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-2%,-1%); }
+    50% { transform: translate(1%,2%); }
+    75% { transform: translate(2%,-2%); }
+    100% { transform: translate(-1%,1%); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 52px 80px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: flex-end;
+    gap: 40px;
+  }
+
+  .hero-overline {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-overline::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3.8rem, 7.5vw, 9rem);
+    font-weight: 300;
+    line-height: 0.93;
+    letter-spacing: -0.01em;
+    color: var(--warm);
+    opacity: 0;
+    animation: fadeUp 1.1s ease forwards 1.1s;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    line-height: 1.9;
+    color: var(--muted);
+    max-width: 360px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.3s;
+  }
+
+  .hero-cta-row {
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.5s;
+  }
+
+  .btn-gold {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--gold);
+    padding: 16px 40px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-ghost::after { content: '→'; transition: transform 0.3s; }
+  .btn-ghost:hover { color: var(--warm); }
+  .btn-ghost:hover::after { transform: translateX(5px); }
+
+  .hero-scroll-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.7s;
+  }
+  .hero-scroll-label::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  /* SECTIONS */
+  section { padding: 120px 52px; }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  /* INTRO */
+  .intro-section {
+    background: url("images/img3_bg.jpeg") center/cover no-repeat;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 100px;
+    align-items: center;
+    border-top: 1px solid var(--faint);
+  }
+
+  .intro-quote {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--warm);
+    margin-top: 40px;
+  }
+  .intro-quote span { color: var(--gold-light); }
+
+  .intro-body {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 2;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .intro-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .stat-box {
+    padding: 32px 28px;
+    background: var(--yellow-pale);
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .stat-box:hover { border-color: var(--gold); }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-desc {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* SERVICES */
+  .services-section {
+    background: var(--yellow-pale);
+    border-top: 1px solid var(--faint);
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .services-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    padding: 48px 32px 44px;
+    background: var(--bg);
+    position: relative;
+    transition: background 0.3s;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover::before { opacity: 1; }
+  .service-card:hover { background: #fdf5d8; }
+
+  .service-num {
+    font-family: var(--serif);
+    font-size: 3.2rem;
+    font-weight: 300;
+    color: rgba(176,136,0,0.15);
+    line-height: 1;
+    margin-bottom: 36px;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-num { color: rgba(176,136,0,0.3); }
+
+  .service-name {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .service-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  .service-line {
+    margin-top: 36px;
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.35;
+    transition: width 0.4s, opacity 0.4s;
+  }
+  .service-card:hover .service-line { width: 56px; opacity: 0.7; }
+
+  /* PORTFOLIO */
+  .portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+  }
+
+  .port-item {
+    position: relative;
+    overflow: hidden;
+  }
+  .port-item.large { grid-column: span 2; }
+
+  .port-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .port-item.large .port-img { aspect-ratio: 16/8; }
+
+  .port-item:hover .port-img { transform: scale(1.04); }
+
+        .p1 { background: url("images/img5.jpeg") center/cover no-repeat; }
+        .p2 { background: url("images/img1.jpeg") center/cover no-repeat; }
+        .p3 { background: url("images/img4.jpeg") center/cover no-repeat; }
+        .p4 { background: url("images/img2.jpeg") center/cover no-repeat; }
+        .p5 { background: url("images/img3.jpeg") center/cover no-repeat; }
+
+  .port-hover {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,21,7,0.75) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 28px;
+  }
+  .port-item:hover .port-hover { opacity: 1; }
+
+  .port-category {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .port-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* PROCESS */
+  .process-steps {
+    margin-top: 68px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--faint);
+  }
+
+  .process-step {
+    padding: 52px 36px;
+    border-right: 1px solid var(--faint);
+    transition: background 0.3s;
+  }
+  .process-step:last-child { border-right: none; }
+  .process-step:hover { background: rgba(176,136,0,0.06); }
+
+  .process-step-num {
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 36px;
+    display: block;
+  }
+
+  .process-step-title {
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+
+  .process-step-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  /* TESTIMONIAL */
+  .testimonial-section {
+    background: var(--yellow-pale);
+    border-top: 1px solid var(--faint);
+    text-align: center;
+    padding: 120px 52px;
+  }
+
+  .testimonial-mark {
+    font-family: var(--serif);
+    font-size: 5rem;
+    color: var(--gold);
+    line-height: 0.5;
+    opacity: 0.3;
+    margin-bottom: 32px;
+    display: block;
+  }
+
+  .testimonial-text {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 36px;
+  }
+
+  .testimonial-author {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .testimonial-author span { color: var(--gold); }
+
+  /* CTA */
+  .cta-section {
+    position: relative;
+    overflow: hidden;
+    padding: 160px 52px;
+    text-align: center;
+    border-top: 1px solid var(--faint);
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(245,200,0,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-eyebrow::before, .cta-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .cta-title {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 8vw, 9rem);
+    font-weight: 300;
+    line-height: 0.9;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-title em { font-style: italic; color: var(--gold-light); }
+
+  .cta-sub {
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 52px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-btns {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg-2);
+    border-top: 1px solid var(--faint);
+    padding: 72px 52px 0;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .footer-brand-name {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-brand-name span { color: var(--gold); font-style: italic; }
+
+  .footer-tagline {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--muted);
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.62rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(176,136,0,0.2);
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 14px; }
+  .footer-col ul a {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+  .footer-col ul a:hover { color: var(--warm); }
+
+  .footer-bottom {
+    padding: 28px 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: rgba(28,21,7,0.35);
+  }
+  .footer-copy span { color: var(--gold); opacity: 0.6; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .d1 { transition-delay: 0.1s; }
+  .d2 { transition-delay: 0.2s; }
+  .d3 { transition-delay: 0.3s; }
+  .d4 { transition-delay: 0.4s; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px 60px; grid-template-columns: 1fr; }
+    .hero-scroll-label { display: none; }
+    section { padding: 80px 24px; }
+    .intro-section { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .port-item.large { grid-column: span 1; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+    .cta-section { padding: 100px 24px; }
+    footer { padding: 60px 24px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-circle" id="curCircle"></div>
+
+<nav>
+  <a href="#" class="logo">One<span>click</span> Studios</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Portfolio</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Session</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-tile t1"></div>
+    <div class="hero-tile t2"></div>
+    <div class="hero-tile t3"></div>
+    <div class="hero-tile t4"></div>
+    <div class="hero-tile t5"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div>
+      <p class="hero-overline">Photography · Visual Storytelling</p>
+      <h1 class="hero-title">
+        Creating an<br>
+        experience that<br>
+        <em>lasts a lifetime</em>
+      </h1>
+      <p class="hero-sub">Every frame tells a story. We capture the moments that matter — with an eye for light, emotion, and the quiet beauty in between.</p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="btn-gold">Book a Session</a>
+        <a href="#work" class="btn-ghost">View Portfolio</a>
+      </div>
+    </div>
+    <div class="hero-scroll-label">Scroll</div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section" id="about">
+  <div class="reveal">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">Where light<br>meets <em>memory</em></h2>
+    <p class="intro-quote">"A photograph is the pause button of <span>life.</span>"</p>
+  </div>
+  <div class="reveal d2">
+    <img src="images/img6.jpeg" alt="Oneclick Studios" style="width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin-bottom:32px;border-radius:2px;">
+    <p class="intro-body">At Oneclick Studios, we believe photography is more than a service — it's the art of preserving the irreplaceable. Founded by photographers who live and breathe their craft, we bring a thoughtful, unhurried approach to every session.</p>
+    <p class="intro-body">Whether it's an intimate portrait, a wedding day, or a brand campaign, we work to reveal the emotion behind the image — not just document what's there.</p>
+    <div class="intro-stats">
+      <div class="stat-box">
+        <div class="stat-num">12+</div>
+        <div class="stat-desc">Years of craft</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">800+</div>
+        <div class="stat-desc">Sessions captured</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">40+</div>
+        <div class="stat-desc">Awards & features</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-desc">Client satisfaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="section-label reveal">What We Offer</div>
+  <h2 class="section-title reveal d1">Every story,<br><em>beautifully told</em></h2>
+  <div class="services-grid">
+    <div class="service-card reveal d1">
+      <div class="service-num">01</div>
+      <h3 class="service-name">Wedding & Couples</h3>
+      <p class="service-desc">Timeless documentation of your most cherished day. We blend into the background so nothing is staged — only real.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card reveal d2">
+      <div class="service-num">02</div>
+      <h3 class="service-name">Portrait Sessions</h3>
+      <p class="service-desc">Personal portraits that feel like you. Natural light, natural expressions — photographs you'll return to for decades.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card reveal d3">
+      <div class="service-num">03</div>
+      <h3 class="service-name">Brand & Commercial</h3>
+      <p class="service-desc">Visual identity photography that elevates your brand. From product campaigns to editorial lookbooks.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card reveal d4">
+      <div class="service-num">04</div>
+      <h3 class="service-name">Events & Editorial</h3>
+      <p class="service-desc">From corporate events to magazine spreads — covered with precision, discretion, and a refined editorial eye.</p>
+      <div class="service-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="work">
+  <div class="portfolio-header reveal">
+    <div>
+      <div class="section-label">Selected Work</div>
+      <h2 class="section-title">The <em>portfolio</em></h2>
+    </div>
+    <a href="#" class="btn-ghost">View All Work</a>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="port-item large">
+      <div class="port-img p1"></div>
+      <div class="port-hover">
+        <div class="port-category">Wedding</div>
+        <div class="port-title">The Ellison Wedding</div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-img p2" style="aspect-ratio:1/1;"></div>
+      <div class="port-hover">
+        <div class="port-category">Portrait</div>
+        <div class="port-title">Studio Series I</div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-img p3"></div>
+      <div class="port-hover">
+        <div class="port-category">Editorial</div>
+        <div class="port-title">Visions of Light</div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-img p4"></div>
+      <div class="port-hover">
+        <div class="port-category">Brand</div>
+        <div class="port-title">Maison Crest</div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-img p5"></div>
+      <div class="port-hover">
+        <div class="port-category">Couples</div>
+        <div class="port-title">Golden Hour</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="border-top: 1px solid var(--faint);">
+  <div class="section-label reveal">How We Work</div>
+  <h2 class="section-title reveal d1">The process<br>of <em>perfection</em></h2>
+  <div class="process-steps">
+    <div class="process-step reveal d1">
+      <span class="process-step-num">Step 01</span>
+      <h3 class="process-step-title">Consultation</h3>
+      <p class="process-step-desc">We begin with a conversation — understanding your vision, your story, and what this session means to you.</p>
+    </div>
+    <div class="process-step reveal d2">
+      <span class="process-step-num">Step 02</span>
+      <h3 class="process-step-title">Creative Direction</h3>
+      <p class="process-step-desc">Together we craft a visual mood, select locations, and plan every detail so the day flows effortlessly.</p>
+    </div>
+    <div class="process-step reveal d3">
+      <span class="process-step-num">Step 03</span>
+      <h3 class="process-step-title">The Shoot</h3>
+      <p class="process-step-desc">We show up, we listen, we watch. Our role is to disappear into the moment and emerge with something true.</p>
+    </div>
+    <div class="process-step reveal d4">
+      <span class="process-step-num">Step 04</span>
+      <h3 class="process-step-title">Delivery</h3>
+      <p class="process-step-desc">Hand-edited with care, delivered in a private gallery — yours to keep, print, and cherish forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<div class="testimonial-section reveal">
+  <span class="testimonial-mark">"</span>
+  <blockquote class="testimonial-text">
+    Oneclick Studios gave us more than photographs. They gave us a way to feel that day again, every single time we look at them.
+  </blockquote>
+  <p class="testimonial-author">— Sarah & James Ellison, <span>Wedding Clients</span></p>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <p class="cta-eyebrow reveal">Begin your story</p>
+  <h2 class="cta-title reveal d1">
+    Let's create<br>
+    <em>something</em><br>
+    timeless.
+  </h2>
+  <p class="cta-sub reveal d2">Sessions available for weddings, portraits, brands & events.</p>
+  <div class="cta-btns reveal d3">
+    <a href="/cdn-cgi/l/email-protection#a0c8c5cccccfe0cfcec5c3ccc9c3cbd3d4d5c4c9cfd38ec3cfcd" class="btn-gold">Book Your Session</a>
+    <a href="tel:+441234567890" class="btn-ghost">Call Us</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">One<span>click</span> Studios</div>
+      <p class="footer-tagline">Creating an experience that lasts a lifetime. Photography is not what we do — it is who we are.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Wedding Photography</a></li>
+        <li><a href="#">Portrait Sessions</a></li>
+        <li><a href="#">Brand & Commercial</a></li>
+        <li><a href="#">Events & Editorial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#"><span class="__cf_email__" data-cfemail="5c34393030331c3332393f30353f372f28293835332f723f3331">[email&#160;protected]</span></a></li>
+        <li><a href="#">Book a Session</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2024 Oneclick Studios · All Rights Reserved</p>
+    <p class="footer-copy">Made with <span>♥</span> for every moment worth keeping</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const dot = document.getElementById('curDot');
+  const circle = document.getElementById('curCircle');
+  let mx = 0, my = 0, cx = 0, cy = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  (function loop() {
+    cx += (mx - cx) * 0.1;
+    cy += (my - cy) * 0.1;
+    circle.style.left = cx + 'px';
+    circle.style.top = cy + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+      circle.style.width = '54px';
+      circle.style.height = '54px';
+      circle.style.borderColor = 'rgba(176,136,0,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.style.transform = 'translate(-50%,-50%) scale(1)';
+      circle.style.width = '36px';
+      circle.style.height = '36px';
+      circle.style.borderColor = 'rgba(176,136,0,0.45)';
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    en
